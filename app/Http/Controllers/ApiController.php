@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Http;
 
 class ApiController extends Controller
 {
-    const TYPE = 'oneshot';
+    const TYPE = 'premium';
     const KEY = '$2y$10$C7juB5QJ.oLLJXb9rbyjYOHlfqPBAkpAk9aDNHQ2M5FpbEkw8LSD.';
 
     /**
      * @param Request $request
-     * @return Application|Factory|View
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function apiYourtext(Request $request)
     {
@@ -33,7 +33,7 @@ class ApiController extends Controller
         $guideId = $data["guide_id"];
 
         for ($i = 0; ; $i++) {
-            sleep(20);
+            sleep(10);
             $data = $this->checkGuid((int)$guideId);
             if (!array_key_exists("errors", $data)) {
                 break;
@@ -43,7 +43,7 @@ class ApiController extends Controller
             }
         }
 
-        return view('statistics', ['data' => $data]);
+        return redirect()->route('send-content',['id' => $guideId]);
     }
 
     /**
@@ -55,16 +55,30 @@ class ApiController extends Controller
     }
 
     /**
+     * @return Application|Factory|View
+     */
+    public function sendContent(Request $request, int $guideId)
+    {
+        if ($request->method() === "POST") {
+            $contentText = $request->contentText;
+            $data = $this->checkGuid($guideId, $contentText);
+            return view('statistics', ['data' => $data]);
+        }
+        return view('sendContent');
+    }
+
+    /**
      * @param int $guidId
+     * @param null $contentText
      * @return mixed
      */
-    private function checkGuid(int $guidId)
+    private function checkGuid(int $guidId, $contentText = null)
     {
         $endpoint = "https://yourtext.guru/api/check/" . $guidId;
         $response = Http::withHeaders([
             'key' => self::KEY,
         ])->post($endpoint, [
-            'content' => 'hello'
+            'content' => is_null($contentText) ? 'hello' : $contentText
         ]);
 
         $data = json_decode($response->getBody(), true);

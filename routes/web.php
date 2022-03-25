@@ -21,4 +21,7 @@ Route::get('/', function () {
 
 
 Route::post('/get-statistic', 'App\Http\Controllers\ApiController@apiYourtext')->name('get-statistic');
+Route::post('/text-comparison', 'App\Http\Controllers\ApiController@checkGuid')->name('text-comparison');
 Route::get('/', 'App\Http\Controllers\ApiController@sendText')->name('send-data');
+Route::match(['get', 'post'],'/send-content/{id}', 'App\Http\Controllers\ApiController@sendContent')
+    ->name('send-content');
