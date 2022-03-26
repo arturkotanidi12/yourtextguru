@@ -102,6 +102,7 @@
     let colorGreen = []
     let colorBlue = []
     let categories = []
+    let colorBlack = []
 
     @foreach($data["red"] as $r)
         colorRed.push([{{$r[1]}}, {{$r[2]}}])
@@ -120,7 +121,11 @@
         colorBlue.push([{{$b[1]}}, {{$b[2]}}])
     @endforeach
 
+    @foreach($data["scores"] as $sc)
+        colorBlack.push([{{$sc[1]}}, {{$sc[1]}}])
+    @endforeach
 
+console.log(colorBlack);
     Highcharts.chart('container', {
         chart: {
             type: 'arearange'
@@ -181,6 +186,11 @@
                 name: 'blue',
                 color: '#96C0EB',
                 data: colorBlue
+            },
+            {
+                name: 'black',
+                color: '#18171b',
+                data: colorBlack,
             }
         ]
     });
