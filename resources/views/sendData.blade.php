@@ -20,7 +20,7 @@
 </head>
 <body class="antialiased">
     <div class="container" style="margin-top: 30px; text-align: center">
-        <p>retrieve the YourTextGuru score curve of a text from a target query. Result to be obtained</p>
+        <p>Entrez le mot-clé de votre texte" instead of</p>
         <form action="{{route('get-statistic')}}" method="POST">
             @csrf
             <div class="form-group">
