@@ -20,7 +20,7 @@
 </head>
 <body class="antialiased">
     <div class="container" style="margin-top: 30px; text-align: center">
-        <p>Entrez le mot-clé de votre texte" instead of</p>
+        <p>Entrez le mot-clé de votre texte</p>
         <form action="{{route('get-statistic')}}" method="POST">
             @csrf
             <div class="form-group">
